@@ -1,13 +1,13 @@
-package com.myapp.openapitest;
+package com.myapp.weatherapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OpenapiTestApplication {
+public class WeatherAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OpenapiTestApplication.class, args);
+		SpringApplication.run(WeatherAppApplication.class, args);
 	}
 
 }

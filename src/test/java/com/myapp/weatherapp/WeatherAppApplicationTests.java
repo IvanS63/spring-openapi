@@ -1,10 +1,10 @@
-package com.myapp.openapitest;
+package com.myapp.weatherapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OpenapiTestApplicationTests {
+class WeatherAppApplicationTests {
 
 	@Test
 	void contextLoads() {
