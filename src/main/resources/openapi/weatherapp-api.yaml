@@ -16,10 +16,12 @@ paths:
       operationId: create-city
       tags:
         - cities
+      requestBody:
+        $ref: '#/components/requestBodies/CityCreateRequest'
       responses:
         '201':
           description: City is created
-          $ref: '#/components/schemas/City'
+          $ref: '#/components/responses/CityResponse'
     get:
       summary: Endpoint for getting list of existing cities
       operationId: get-list-of-cities
@@ -28,6 +30,7 @@ paths:
       responses:
         '200':
           description: City list is received
+          $ref: "#/components/responses/CityListResponse"
   /weather:
     post:
       summary: Endpoint to create weather record in particular city at provided date
@@ -36,10 +39,12 @@ paths:
         Endpoint to create weather record in particular city at provided date
       tags:
         - weather
+      requestBody:
+        $ref: '#/components/requestBodies/WeatherCreateRequest'
       responses:
         '201':
           description: Weather record is created
-          $ref: '#/components/schemas/WeatherRecord'
+          $ref: '#/components/responses/WeatherRecordResponse'
         '404':
           description: City not found
 
@@ -71,6 +76,7 @@ paths:
       responses:
         '200':
           description: Weather records found
+          $ref: "#/components/responses/WeatherListResponse"
         '400':
           description: Bad request
         '404':
@@ -124,4 +130,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TemperatureRecord'
+
+  requestBodies:
+    CityCreateRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/City'
+    WeatherCreateRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WeatherRecord'
+
+  responses:
+    CityResponse:
+      description: Response with created city
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/City'
+    WeatherRecordResponse:
+      description: Response with created weather record
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WeatherRecord'
+    CityListResponse:
+      description: Response with list if existing cities
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/City'
+    WeatherListResponse:
+      description: Response with weather records
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/WeatherRecord'
 
