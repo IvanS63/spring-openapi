@@ -9,13 +9,17 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.myapp</groupId>
-	<artifactId>openapi-test</artifactId>
+	<artifactId>weather-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>openapi-test</name>
+	<name>Weather App</name>
 	<description>Demo project for Open API</description>
+
 	<properties>
 		<java.version>17</java.version>
+		<openapi.generator.maven.plugin.version>5.2.1</openapi.generator.maven.plugin.version>
+		<jackson-databind-nullable.version>0.2.0</jackson-databind-nullable.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -32,6 +36,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- for swagger open api auto generation-->
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>openapi-generator-maven-plugin</artifactId>
+			<version>${openapi.generator.maven.plugin.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>${jackson-databind-nullable.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -47,6 +64,34 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>qf-order-open-api</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/openapi/weatherapp-api.yaml
+							</inputSpec>
+							<generatorName>spring</generatorName>
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<modelPackage>com.myapp.weatherapp.model</modelPackage>
+							<apiPackage>com.myapp.weatherapp.api</apiPackage>
+							<output>.</output>
+							<skipOverwrite>false</skipOverwrite>
+							<generateModelTests>false</generateModelTests>
+							<configOptions>
+								<sourceFolder>target/gen/main/java</sourceFolder>
+								<dateLibrary>java8</dateLibrary>
+								<interfaceOnly>true</interfaceOnly>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
