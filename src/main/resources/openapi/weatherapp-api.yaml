@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  title: Weather app
+  version: "1.0"
+servers:
+  - url: https://api.server.test/v1
+
+tags:
+  - name: weather
+  - name: cities
+
+paths:
+  /cities:
+    post:
+      summary: Endpoint for create city information
+      operationId: create-city
+      tags:
+        - cities
+      responses:
+        '201':
+          description: City is created
+          $ref: '#/components/schemas/City'
+    get:
+      summary: Endpoint for getting list of existing cities
+      operationId: get-list-of-cities
+      tags:
+        - cities
+      responses:
+        '200':
+          description: City list is received
+  /weather:
+    post:
+      summary: Endpoint to create weather record in particular city at provided date
+      operationId: create-weather-record
+      description: |
+        Endpoint to create weather record in particular city at provided date
+      tags:
+        - weather
+      responses:
+        '201':
+          description: Weather record is created
+          $ref: '#/components/schemas/WeatherRecord'
+        '404':
+          description: City not found
+
+    get:
+      summary: Endpoint for getting weather in selected city filtered by date period
+      tags:
+        - weather
+      operationId: get-weather-for-city
+      description: |
+        Endpoint to get weather records in particular city at provided date range
+      parameters:
+        - in: query
+          name: city
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: startDate
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Weather records found
+        '400':
+          description: Bad request
+        '404':
+          description: City not found
+
+components:
+  schemas:
+    WeatherType:
+      description: Weather type
+      type: string
+      enum:
+        - SUNNY
+        - RAINY
+        - CLOUDLY
+
+    TemperatureRecord:
+      description: Temperature record at certain date time
+      type: object
+      properties:
+        datetime:
+          type: string
+          format: date-time
+        value:
+          type: number
+
+    City:
+      description: City information
+      type: object
+      properties:
+        latitide:
+          type: number
+        langitude:
+          type: number
+        name:
+          type: string
+        country:
+          type: string
+
+    WeatherRecord:
+      description: Weather record
+      type: object
+      properties:
+        city:
+          $ref: '#/components/schemas/City'
+        date:
+          type: string
+          format: date
+        weatherType:
+          $ref: '#/components/schemas/WeatherType'
+        temperatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemperatureRecord'
+
